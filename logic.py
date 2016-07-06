@@ -25,13 +25,16 @@ class Logic(object):
             SELECT id, skypename, fullname
             FROM "Contacts"
             WHERE
-              fullname LIKE ?
+              fullname LIKE :search_string
             OR
-              skypename LIKE ?
+              skypename LIKE :search_string
+            OR
+              displayname LIKE :search_string
             ORDER BY id
         """
         search_string = '%' + search_string + '%'
-        data = self.db_connector.execute(query, (search_string, search_string))
+        params = {'search_string': search_string}
+        data = self.db_connector.execute(query, params)
         return data
 
     def list_contacts(self):
@@ -44,6 +47,14 @@ class Logic(object):
         return data
 
     def get_messages(self, skype_name, time_start=None, time_end=None, limit=None):
+        skype_name_arr = self.find_contact(skype_name)
+        if not len(skype_name_arr):
+            raise AttributeError('Не найдены контакты по имени', skype_name)
+        else:
+            skype_name = skype_name_arr[0]['skypename']
+        return self.get_messages_by_skype_name(skype_name, time_start=time_start, time_end=time_end, limit=limit)
+
+    def get_messages_by_skype_name(self, skype_name, time_start=None, time_end=None, limit=None):
         """
             :param skype_name - string
             :param time_start - sql compatible string ('yyyy-mm--dd')
@@ -64,11 +75,14 @@ class Logic(object):
         """
         if limit is not None:
             query += """\nLIMIT :limit\n"""
+        convo_id = self._get_convo_id_by_name(skype_name)
+        if convo_id is False:
+            raise AttributeError('Не найдены сообщения для контакта', skype_name)
         params = {
             'my_name': self.my_name,
             'time_start': time_start,
             'time_end': time_end,
-            'convo_id': self._get_convo_id_by_name(skype_name),
+            'convo_id': convo_id,
             'limit': limit
         }
         return self.db_connector.execute(query, params)
@@ -77,6 +91,6 @@ class Logic(object):
         query = """
             SELECT id FROM "Conversations" WHERE identity LIKE ?
         """
-        params = ('%' + skype_name + '%',)
+        params = (skype_name,)
         identifier = self.db_connector.execute(query, params, fetchone=True)
         return identifier[0] if identifier is not None else False
