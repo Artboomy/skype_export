@@ -1,0 +1,13 @@
+.msg__container {
+    background-color: #C7EDFC;
+    border-radius: 5px;
+    padding: 16px;
+    margin-top: 12px;
+    margin-left: 36px;
+    line-height: 1.5em;
+}
+
+.msg__mineMsg {
+    background-color: #F0F4F8;
+    margin-left: 0;
+}

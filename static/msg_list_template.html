@@ -1,0 +1,13 @@
+<head>
+    <style type="text/css">
+        {% include "static/styles.css" %}
+    </style>
+</head>
+<div>Message list</div>
+{%  for msg in msg_list %}
+    <div class="msg__container{%if msg['is_mine'] %} msg__mineMsg{% endif %}" id="{{ msg['id'] }}">
+        <div class="msg__timestamp">{{ msg['time_stamp'] }}</div>
+        <div class="msg__author">{{ msg['author'] }}</div>
+        <div class="msg__mainText">{{ msg['msg_text'] }}</div>
+    </div>
+{%  endfor %}
