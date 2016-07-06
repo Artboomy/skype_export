@@ -36,6 +36,6 @@ def export_messages(msg_list, output_file_name=None):
             os.makedirs(dir_name + '/export/')
         output_file_name = 'export/{0}.html'.format(get_cur_time_filename())
 
-    with open(output_file_name, 'wt') as out_file:
+    with open(output_file_name, 'wt', encoding='utf-8') as out_file:
         out_file.write(render_message_list(msg_list))
         print('export successful to file: ', output_file_name)
