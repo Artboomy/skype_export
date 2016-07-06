@@ -1,13 +1,48 @@
 .msg__container {
-    background-color: #C7EDFC;
+    background-color: #F0F4F8;
     border-radius: 5px;
     padding: 16px;
     margin-top: 12px;
-    margin-left: 36px;
     line-height: 1.5em;
 }
 
 .msg__mineMsg {
-    background-color: #F0F4F8;
-    margin-left: 0;
+    background-color: #C7EDFC;
+    margin-left: 36px;
+}
+
+.msg__mineMsg + .msg__mineMsg {
+    margin-top: 4px;
+}
+
+:not(.msg__mineMsg) + :not(.msg__mineMsg) {
+    margin-top: 4px;
+}
+
+.msg__mineMsg .msg__author {
+    display: none;
+}
+
+.msg__mainText {
+    white-space: pre;
+}
+
+quote {
+    display: block;
+}
+
+quote:before {
+    content: '\201c';
+    font-weight: bold;
+    font-size: 24px;
+}
+
+quote:after {
+    content: '\201d';
+    font-weight: bold;
+    font-size: 24px;
+}
+
+legacyquote {
+    display: none;
 }
