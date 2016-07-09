@@ -4,6 +4,7 @@
 from logic import Logic
 import argparse
 import template_utils as tu
+import sys
 parser = argparse.ArgumentParser()
 
 
@@ -23,11 +24,15 @@ def init_args():
     for arg in args_dict:
         parser.add_argument(arg['short'], arg['long'], help=arg['help'], action=arg['action'])
 
+def get_messages():
+    bl = Logic()
+    messages = bl.get_messages(args.user_name, time_start=args.date_start, time_end=args.date_end)
+    tu.export_messages(messages, args.output_file)
+
 init_args()
 args = parser.parse_args()
 if args.export_messages:
     if args.user_name is None:
-        raise AttributeError('Username not specified')
-    BL = Logic()
-    messages = BL.get_messages(args.user_name, time_start=args.date_start, time_end=args.date_end)
-    tu.export_messages(messages, args.output_file)
+        sys.exit('Error: Name is required argument')
+    else:
+        get_messages()
