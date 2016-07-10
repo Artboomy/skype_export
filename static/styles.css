@@ -28,9 +28,18 @@
     text-align: center;
     width: 100%;
     height: 0.5em;
-    border-bottom: 1px solid #a5cede;
+    border-bottom: 1px solid #4FC3F7;
     margin-top: 12px;
     margin-bottom: 24px;
+    cursor: pointer;
+}
+
+.msg__dateGrouper__text:hover {
+    color: #75abcc;
+}
+
+.hidden {
+    display: none;
 }
 
 .msg__dateGrouper__text {
