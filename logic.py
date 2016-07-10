@@ -64,6 +64,7 @@ class Logic(object):
         query = """
             SELECT id,
                 datetime("Messages".timestamp, 'unixepoch', 'localtime') as time_stamp,
+                date("Messages".timestamp, 'unixepoch', 'localtime') as date_stamp,
                  from_dispname as author,
                  author = :my_name as is_mine,
                   body_xml as msg_text

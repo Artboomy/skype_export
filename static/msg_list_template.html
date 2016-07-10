@@ -3,11 +3,16 @@
         {% include "static/styles.css" %}
     </style>
 </head>
-<div>Message list</div>
-{%  for msg in msg_list %}
-    <div class="msg__container{%if msg['is_mine'] %} msg__mineMsg{% endif %}" id="{{ msg['id'] }}">
-        <div class="msg__timestamp">{{ msg['time_stamp'] }}</div>
-        <div class="msg__author">{{ msg['author'] }}</div>
-        <div class="msg__mainText">{{ msg['msg_text'] }}</div>
+{# FIXME: date_stamp used because I didn't figured out, how to extract date from string in groupby #}
+{%  for msg_group in msg_list|groupby("date_stamp") %}
+    <div class="msg__dateGrouper">
+        <span class="msg__dateGrouper__text">{{ date_render(msg_group.grouper) }}</span>
     </div>
-{%  endfor %}
+    {%  for msg in msg_group.list %}
+        <div class="msg__container{%if msg['is_mine'] %} msg__mineMsg{% endif %}" id="{{ msg['id'] }}">
+            <div class="msg__author">{{ msg['author'] }}</div>
+            <div class="msg__timestamp">{{ msg['time_stamp'].split(' ')[1] }}</div>
+            <div class="msg__mainText">{{ msg['msg_text'] }}</div>
+        </div>
+    {%  endfor %}
+{% endfor %}
