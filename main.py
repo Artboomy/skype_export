@@ -24,6 +24,7 @@ def init_args():
     for arg in args_dict:
         parser.add_argument(arg['short'], arg['long'], help=arg['help'], action=arg['action'])
 
+
 def get_messages():
     bl = Logic()
     messages = bl.get_messages(args.user_name, time_start=args.date_start, time_end=args.date_end)

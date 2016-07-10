@@ -28,7 +28,7 @@ class DbDaemon(object):
             self._db_connector = sqlite3.connect(self._full_db_name)
             # for convenient access to result fields as dict attributes
             self._db_connector.row_factory = sqlite3.Row
-            self.logger.info('Successfully connected to ' + self.db_name)
+            self.logger.info('Successfully connected to ' + self._full_db_name)
         except sqlite3.Error as e:
             self.logger.error('Connection error: "{0}"'.format(e.args[0]))
 
