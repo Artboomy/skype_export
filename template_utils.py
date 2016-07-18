@@ -7,9 +7,12 @@ from jinja2 import FileSystemLoader
 from jinja2.environment import Environment
 from datetime import datetime as dt
 import locale
+import lxml.etree as etree
 
 MY_LOCALE = 'Russian_Russia.1251'
 MY_LOCALE_TODAY = 'Сегодня'
+
+locale.setlocale(locale.LC_ALL, MY_LOCALE)
 
 
 def render_message(msg):
@@ -32,17 +35,28 @@ def render_message_list(msg_list):
     env.loader = FileSystemLoader('.')
     template = env.get_template('static/msg_list_template.html')
     env.globals['date_render'] = _human_date_render
+    env.globals['msg_render'] = _human_msg_render
     return template.render(msg_list=msg_list)
 
 
 def _human_date_render(date_str):
-    loc = locale.getlocale()
     locale.setlocale(locale.LC_ALL, MY_LOCALE)
     date = dt.strptime(date_str, '%Y-%m-%d')
     result = date.strftime('%d %B %Y  (%A)')
     if date.date() == dt.today().date():
         result = MY_LOCALE_TODAY + ' - {0}'.format(result)
-    locale.setlocale(locale.LC_ALL, loc)
+    return result
+
+
+def _human_msg_render(msg_str):
+    result = msg_str
+    if 'URIObject' in msg_str:
+        try:
+            xml = etree.fromstring(msg_str)
+            result = 'Image: {0}'.format(xml[1].attrib['href'])
+        except KeyError:
+            pass
+            # print('Url extraction failed')
     return result
 
 

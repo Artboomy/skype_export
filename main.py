@@ -26,8 +26,14 @@ def init_args():
 
 
 def get_messages():
+
+    def date_parser(date): None if date is None else date.replace('_', ' ')
     bl = Logic()
-    messages = bl.get_messages(args.user_name, time_start=args.date_start, time_end=args.date_end)
+
+    messages = bl.get_messages(
+        args.user_name,
+        time_start=date_parser(args.date_start),
+        time_end=date_parser(args.date_end))
     tu.export_messages(messages, args.output_file)
 
 init_args()
