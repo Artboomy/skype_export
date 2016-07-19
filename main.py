@@ -27,7 +27,7 @@ def init_args():
 
 def get_messages():
 
-    def date_parser(date): None if date is None else date.replace('_', ' ')
+    def date_parser(date): return None if date is None else date.replace('_', ' ')
     bl = Logic()
 
     messages = bl.get_messages(
