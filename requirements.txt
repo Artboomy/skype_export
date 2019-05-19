@@ -2,7 +2,7 @@
 # https://github.com/Damnever/pigar
 
 # template_utils.py: 5,6,7
-Jinja2 == 2.8
+Jinja2>=2.10.1
 
 # template_utils.py: 10
-lxml == 3.4.4
+lxml >= 3.4.4

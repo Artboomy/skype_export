@@ -49,6 +49,7 @@ def _human_date_render(date_str):
 
 
 def _human_msg_render(msg_str):
+    msg_str = msg_str if msg_str is not None else '???'
     result = msg_str
     if 'URIObject' in msg_str:
         try:
